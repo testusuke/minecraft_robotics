@@ -8,16 +8,17 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
-find_package(std_msgs REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-        "msg/Vector3.msg"
-)
+find_package(geometry_msgs REQUIRED)
 
 add_executable(client src/client.cpp
-        include/serial_bridge_ros2_example/Vector3.hpp)
-ament_target_dependencies(client rclcpp std_msgs)
+        src/Vector3.hpp)
+target_link_libraries(client ${CMAKE_SOURCE_DIR}/SerialBridge/bin/libSerialBridge.a)
+target_include_directories(client PRIVATE ${CMAKE_SOURCE_DIR}/SerialBridge/src)
+ament_target_dependencies(client rclcpp geometry_msgs)
+
+install(TARGETS
+        client
+        DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
