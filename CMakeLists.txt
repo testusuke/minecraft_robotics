@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(serial_bridge_ros2_example)
+project(minecraft_robotics)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -9,12 +9,13 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
 
 add_executable(client src/client.cpp
-        src/Vector3.hpp)
+        src/Button.hpp)
 target_link_libraries(client ${CMAKE_SOURCE_DIR}/SerialBridge/bin/libSerialBridge.a)
 target_include_directories(client PRIVATE ${CMAKE_SOURCE_DIR}/SerialBridge/src)
-ament_target_dependencies(client rclcpp geometry_msgs)
+ament_target_dependencies(client rclcpp geometry_msgs std_msgs)
 
 install(TARGETS
         client
